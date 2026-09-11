@@ -128,3 +128,133 @@
   <script src="app.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torneo de Videojuegos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Torneo de Videojuegos</h1>
+    <p>Panel de administración</p>
+  </header>
+
+  <!-- Mensaje global de éxito / error (RF: mensajes claros) -->
+  <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
+
+  <nav class="tabs">
+    <button class="tab activo" data-tab="jugadores">Jugadores</button>
+    <button class="tab" data-tab="videojuegos">Videojuegos</button>
+    <button class="tab" data-tab="puntuaciones">Puntuación</button>
+    <button class="tab" data-tab="ranking">Ranking</button>
+    <button class="tab" data-tab="estadisticas">Estadísticas</button>
+  </nav>
+
+  <main>
+    <!-- ================= JUGADORES (RF01, RF04, RF07) ================= -->
+    <section class="panel activo" id="jugadores">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Registrar jugador</h2>
+          <label for="j-nombre">Nombre</label>
+          <input id="j-nombre" type="text" placeholder="Juan Pérez" />
+          <label for="j-gamertag">Gamertag</label>
+          <input id="j-gamertag" type="text" placeholder="Shadow" />
+          <label for="j-correo">Correo</label>
+          <input id="j-correo" type="email" placeholder="nombre@correo.com" />
+          <button id="j-guardar" class="btn-primario">Guardar jugador</button>
+        </div>
+
+        <div class="card">
+          <h2>Jugadores registrados</h2>
+          <input id="j-buscar" type="text" class="buscador" placeholder="Buscar por nombre o gamertag" />
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr><th>Gamertag</th><th>Correo</th><th>Fecha de registro</th></tr>
+              </thead>
+              <tbody id="j-tabla">
+                <tr><td colspan="3" class="vacio">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIDEOJUEGOS (RF02) ================= -->
+    <section class="panel" id="videojuegos">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Registrar videojuego</h2>
+          <label for="v-nombre">Nombre</label>
+          <input id="v-nombre" type="text" placeholder="Tekken" />
+          <label for="v-genero">Género</label>
+          <input id="v-genero" type="text" placeholder="Peleas" />
+          <button id="v-guardar" class="btn-primario">Guardar videojuego</button>
+        </div>
+
+        <div class="card">
+          <h2>Videojuegos registrados</h2>
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr><th>Nombre</th><th>Género</th></tr>
+              </thead>
+              <tbody id="v-tabla">
+                <tr><td colspan="2" class="vacio">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PUNTUACIONES (RF05) ================= -->
+    <section class="panel" id="puntuaciones">
+      <div class="card estrecha">
+        <h2>Registrar puntuación</h2>
+        <label for="p-jugador">Jugador</label>
+        <select id="p-jugador"></select>
+        <label for="p-videojuego">Videojuego</label>
+        <select id="p-videojuego"></select>
+        <label for="p-puntuacion">Puntuación</label>
+        <input id="p-puntuacion" type="number" min="0" step="1" placeholder="0" />
+        <button id="p-guardar" class="btn-primario">Guardar puntuación</button>
+      </div>
+    </section>
+
+    <!-- ================= RANKING (RF06) ================= -->
+    <section class="panel" id="ranking">
+      <div class="card">
+        <h2>Clasificación</h2>
+        <div class="tabla-scroll">
+          <table>
+            <thead>
+              <tr><th>Posición</th><th>Jugador</th><th>Videojuego</th><th class="der">Puntuación</th></tr>
+            </thead>
+            <tbody id="r-tabla">
+              <tr><td colspan="4" class="vacio">Cargando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ESTADÍSTICAS (RF08) ================= -->
+    <section class="panel" id="estadisticas">
+      <div class="grid-4">
+        <div class="metrica"><span>Jugadores</span><strong id="e-jugadores">—</strong></div>
+        <div class="metrica"><span>Videojuegos</span><strong id="e-videojuegos">—</strong></div>
+        <div class="metrica"><span>Puntuaciones</span><strong id="e-puntuaciones">—</strong></div>
+        <div class="metrica"><span>Promedio</span><strong id="e-promedio">—</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
