@@ -3,7 +3,7 @@ const express = require('express');
 const {
     obtenerPuntuaciones,
     registrarPuntuacion
-} = require('../controllers/puntuaciones.controller');
+} = require('../controllers/puntuaciones_controller');
 
 const router = express.Router();
 

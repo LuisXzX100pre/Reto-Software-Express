@@ -4,7 +4,7 @@ const {
     obtenerJugadores,
     registrarJugador,
     buscarJugadores
-} = require('../controllers/jugadores.controller');
+} = require('../controllers/jugadores_controller');
 
 const router = express.Router();
 

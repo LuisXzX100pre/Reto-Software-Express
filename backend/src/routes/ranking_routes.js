@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
     obtenerRanking
-} = require('../controllers/ranking.controller');
+} = require('../controllers/ranking_controller');
 
 const router = express.Router();
 

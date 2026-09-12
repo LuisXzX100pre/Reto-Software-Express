@@ -1,4 +1,4 @@
-const jugadoresService = require('../services/jugadores.service');
+const jugadoresService = require('../services/jugadores_service');
 
 
 const obtenerJugadores = async (req, res) => {

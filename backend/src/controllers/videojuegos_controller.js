@@ -1,5 +1,5 @@
 const videojuegosService =
-    require('../services/videojuegos.service');
+    require('../services/videojuegos_service');
 
 
 const obtenerVideojuegos = async (req, res) => {

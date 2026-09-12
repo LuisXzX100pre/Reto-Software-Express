@@ -1,5 +1,5 @@
 const rankingService =
-    require('../services/ranking.service');
+    require('../services/ranking_services');
 
 
 const obtenerRanking = async (req, res) => {

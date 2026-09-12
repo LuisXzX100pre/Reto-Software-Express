@@ -3,7 +3,7 @@ const express = require('express');
 const {
     obtenerVideojuegos,
     registrarVideojuego
-} = require('../controllers/videojuegos.controller');
+} = require('../controllers/videojuegos_controller');
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 const puntuacionesService =
-    require('../services/puntuaciones.service');
+    require('../services/puntuaciones_service');
 
 
 const obtenerPuntuaciones = async (req, res) => {
