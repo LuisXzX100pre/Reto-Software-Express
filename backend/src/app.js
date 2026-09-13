@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 
-const jugadoresRoutes = require('./routes/jugadores.routes');
-const videojuegosRoutes = require('./routes/videojuegos.routes');
-const puntuacionesRoutes = require('./routes/puntuaciones.routes');
-const rankingRoutes = require('./routes/ranking.routes');
-const estadisticasRoutes = require('./routes/estadisticas.routes');
+const jugadoresRoutes = require('./routes/jugadores_routes.js');
+const videojuegosRoutes = require('./routes/videojuegos_routes');
+const puntuacionesRoutes = require('./routes/puntuaciones_routes');
+const rankingRoutes = require('./routes/ranking_routes');
+const estadisticasRoutes = require('./routes/estadisticas_routes');
 
 const app = express();
 

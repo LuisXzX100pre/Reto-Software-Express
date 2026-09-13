@@ -1,5 +1,5 @@
 const estadisticasService =
-    require('../services/estadisticas.service');
+    require('../services/estadisticas_service');
 
 
 const obtenerEstadisticas = async (req, res) => {
