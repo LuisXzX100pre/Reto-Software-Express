@@ -72,7 +72,7 @@ Evidencia del fallo:
 
 
 
-!\[Error al iniciar el backend: Cannot find module './app'](evidencias/CP-BE-001-error-arranque.png)
+![Evidencia del error de arranque](./evidencias/CP-BE-001-error-arranque.png)
 
 
 
