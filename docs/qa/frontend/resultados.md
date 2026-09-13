@@ -64,11 +64,11 @@ Evidencias
 
 
 
-!\[Interfaz duplicada](./evidencias/CP-FE-001-interfaz-duplicada.png)
+![Interfaz duplicada](./evidencias/CP-FE-001-interfaz-duplicada.png)
 
 
 
-!\[Consola al abrir el frontend](./evidencias/CP-FE-001-consola.png)
+![Consola al abrir el frontend](./evidencias/CP-FE-001-consola.png)
 
 
 
@@ -118,7 +118,7 @@ Evidencia
 
 
 
-!\[Navegación a Videojuegos](./evidencias/CP-FE-002-navegacion-videojuegos.png)
+![Navegación a Videojuegos](./evidencias/CP-FE-002-navegacion-videojuegos.png)
 
 
 
