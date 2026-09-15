@@ -1,32 +1,12 @@
-// ============================================================
-//  app.js  —  LÓGICA DEL FRONTEND
-// ============================================================
-//  IMPORTANTE: el navegador NO se conecta directo a MySQL.
-//  Este front habla por HTTP (fetch) con un backend, y ese
-//  backend es el que consulta la base "torneo_videojuegos".
-//
-//  Flujo real de cada dato:
-//     este front  →  fetch  →  backend  →  MySQL (tabla)
-//
-//  Mientras el backend NO esté corriendo, las tablas mostrarán
-//  "Error al cargar" (es normal: no hay a quién pedirle datos).
-// ============================================================
 
-
-// ------------------------------------------------------------
-//  URL del backend. Cámbiala por la del servidor de tu equipo.
-//  (mismo host y puerto donde corra el backend)
-// ------------------------------------------------------------
 const API = "http://localhost:3000";
 
 
-// ============================================================
-//  Helpers
-// ============================================================
+
 const $ = (id) => document.getElementById(id);
 
-// Muestra mensaje de éxito / error (RF: mensajes claros)
-function mensaje(texto, tipo) {         // tipo: "ok" | "err"
+
+function mensaje(texto, tipo) {        
   const box = $("mensaje");
   box.textContent = texto;
   box.className = "mensaje " + tipo;
@@ -34,7 +14,7 @@ function mensaje(texto, tipo) {         // tipo: "ok" | "err"
   box._t = setTimeout(() => (box.className = "mensaje"), 3000);
 }
 
-// Evita romper el HTML al pintar texto en las tablas
+
 function esc(s) {
   const d = document.createElement("div");
   d.textContent = s == null ? "" : s;
@@ -61,9 +41,7 @@ async function apiPost(ruta, cuerpo) {
 }
 
 
-// ============================================================
-//  Navegación por pestañas
-// ============================================================
+
 document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => {
     const id = btn.dataset.tab;
@@ -81,16 +59,10 @@ document.querySelectorAll(".tab").forEach((btn) => {
 });
 
 
-// ============================================================
-//  JUGADORES
-//  Tabla MySQL:  jugadores
-//  Columnas:     id, nombre, gamertag, correo, fecha_registro
-// ============================================================
+
 
 // RF04 — Consultar jugadores
-//   GET /jugadores           → SELECT ... FROM jugadores
-// RF07 — Buscar jugadores
-//   GET /jugadores/buscar?q= → SELECT ... WHERE nombre LIKE ? OR gamertag LIKE ?
+
 async function cargarJugadores(filtro = "") {
   const tbody = $("j-tabla");
   try {
@@ -103,7 +75,7 @@ async function cargarJugadores(filtro = "") {
       tbody.innerHTML = '<tr><td colspan="3" class="vacio">Sin jugadores</td></tr>';
       return;
     }
-    // Cada fila usa las columnas de la tabla "jugadores"
+
     tbody.innerHTML = jugadores
       .map(
         (j) =>
@@ -115,15 +87,13 @@ async function cargarJugadores(filtro = "") {
   }
 }
 
-// RF01 — Registrar jugador
-//   POST /jugadores → INSERT INTO jugadores (nombre, gamertag, correo)
-//   Reglas: campos obligatorios; el backend rechaza gamertag duplicado
+
 $("j-guardar").addEventListener("click", async () => {
   const nombre = $("j-nombre").value.trim();
   const gamertag = $("j-gamertag").value.trim();
   const correo = $("j-correo").value.trim();
 
-  // Validación en el front (el backend vuelve a validar por seguridad)
+
   if (!nombre || !gamertag || !correo) {
     mensaje("Nombre, gamertag y correo son obligatorios", "err");
     return;
@@ -134,13 +104,12 @@ $("j-guardar").addEventListener("click", async () => {
     $("j-gamertag").value = "";
     $("j-correo").value = "";
     mensaje("Jugador registrado", "ok");
-    cargarJugadores();                 // refresca la tabla desde MySQL
+    cargarJugadores();                 
   } catch (e) {
     mensaje(e.message, "err");         // ej. "Ese gamertag ya está registrado"
   }
 });
 
-// RF07 — búsqueda en vivo (con pequeño retraso para no saturar)
 let buscarTimer;
 $("j-buscar").addEventListener("input", (e) => {
   clearTimeout(buscarTimer);
@@ -149,14 +118,7 @@ $("j-buscar").addEventListener("input", (e) => {
 });
 
 
-// ============================================================
-//  VIDEOJUEGOS
-//  Tabla MySQL:  videojuegos
-//  Columnas:     id, nombre, genero
-// ============================================================
 
-// Listar videojuegos (para la tabla y para los <select> de puntuación)
-//   GET /videojuegos → SELECT id, nombre, genero FROM videojuegos
 async function cargarVideojuegos() {
   const tbody = $("v-tabla");
   try {
@@ -172,8 +134,7 @@ async function cargarVideojuegos() {
 }
 
 // RF02 — Registrar videojuego
-//   POST /videojuegos → INSERT INTO videojuegos (nombre, genero)
-//   Reglas: campos obligatorios; el backend rechaza nombre duplicado
+
 $("v-guardar").addEventListener("click", async () => {
   const nombre = $("v-nombre").value.trim();
   const genero = $("v-genero").value.trim();
@@ -189,21 +150,14 @@ $("v-guardar").addEventListener("click", async () => {
     mensaje("Videojuego registrado", "ok");
     cargarVideojuegos();
   } catch (e) {
-    mensaje(e.message, "err");         // ej. "Ese videojuego ya está registrado"
+    mensaje(e.message, "err");         
   }
 });
 
 
-// ============================================================
-//  PUNTUACIONES
-//  Tabla MySQL:  puntuaciones
-//  Columnas:     id, jugador_id (FK→jugadores.id),
-//                videojuego_id (FK→videojuegos.id),
-//                puntuacion (CHECK >= 0), fecha
-// ============================================================
 
-// Llena los <select> con los jugadores y videojuegos existentes.
-// El value de cada opción es el id de la tabla (lo que la FK necesita).
+
+
 async function cargarSelects() {
   try {
     const [jugadores, juegos] = await Promise.all([
@@ -222,9 +176,7 @@ async function cargarSelects() {
 }
 
 // RF05 — Registrar puntuación
-//   POST /puntuaciones → INSERT INTO puntuaciones (jugador_id, videojuego_id, puntuacion)
-//   Reglas: jugador y videojuego deben existir (FK);
-//           puntuacion no negativa (validada aquí, en el backend y por CHECK en la base)
+
 $("p-guardar").addEventListener("click", async () => {
   const jugador_id = $("p-jugador").value;
   const videojuego_id = $("p-videojuego").value;
@@ -256,14 +208,10 @@ $("p-guardar").addEventListener("click", async () => {
 });
 
 
-// ============================================================
-//  RANKING
-//  Consulta MySQL: JOIN de puntuaciones + jugadores + videojuegos
-//                  ORDER BY puntuacion DESC
-// ============================================================
+
 
 // RF06 — Mostrar clasificación
-//   GET /ranking → devuelve filas { jugador, videojuego, puntuacion } ya ordenadas
+
 async function cargarRanking() {
   const tbody = $("r-tabla");
   try {
@@ -282,14 +230,11 @@ async function cargarRanking() {
 }
 
 
-// ============================================================
-//  ESTADÍSTICAS
-//  Consultas MySQL: COUNT(*) en cada tabla y AVG(puntuacion)
-// ============================================================
+
 
 // RF08 — Estadísticas
-//   GET /estadisticas → { total_jugadores, total_videojuegos,
-//                         total_puntuaciones, promedio }
+
+
 async function cargarEstadisticas() {
   try {
     const e = await apiGet("/estadisticas");
@@ -303,7 +248,5 @@ async function cargarEstadisticas() {
 }
 
 
-// ============================================================
-//  Carga inicial: al abrir, pide los jugadores al backend
-// ============================================================
+
 cargarJugadores();
