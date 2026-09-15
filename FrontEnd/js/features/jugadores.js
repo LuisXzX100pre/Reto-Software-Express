@@ -13,13 +13,10 @@ export async function cargarJugadores(filtro = "") {
     try {
 
         const ruta = filtro
-            ? "/jugadores/buscar?q=" +
-              encodeURIComponent(filtro)
+            ? "/jugadores/buscar?q=" + encodeURIComponent(filtro)
             : "/jugadores";
 
-
         const jugadores = await apiGet(ruta);
-
 
         if (!jugadores.length) {
 
@@ -34,7 +31,6 @@ export async function cargarJugadores(filtro = "") {
             return;
         }
 
-
         tbody.innerHTML = jugadores
             .map((jugador) => `
                 <tr>
@@ -47,7 +43,7 @@ export async function cargarJugadores(filtro = "") {
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Error al cargar jugadores:", error);
 
         tbody.innerHTML = `
             <tr>
@@ -64,12 +60,19 @@ export async function cargarJugadores(filtro = "") {
 // REGISTRAR JUGADOR
 // ==========================================
 
-async function registrarJugador() {
+async function registrarJugador(event) {
+
+    event.preventDefault();
+
+    const formulario = $("form-jugador");
 
     const nombre = $("j-nombre").value.trim();
     const gamertag = $("j-gamertag").value.trim();
     const correo = $("j-correo").value.trim();
 
+    const boton = formulario.querySelector(
+        'button[type="submit"]'
+    );
 
     if (!nombre || !gamertag || !correo) {
 
@@ -81,8 +84,9 @@ async function registrarJugador() {
         return;
     }
 
-
     try {
+
+        boton.disabled = true;
 
         await apiPost("/jugadores", {
             nombre,
@@ -90,17 +94,12 @@ async function registrarJugador() {
             correo
         });
 
-
-        $("j-nombre").value = "";
-        $("j-gamertag").value = "";
-        $("j-correo").value = "";
-
+        formulario.reset();
 
         mensaje(
             "Jugador registrado correctamente",
             "ok"
         );
-
 
         await cargarJugadores();
 
@@ -110,6 +109,10 @@ async function registrarJugador() {
             error.message,
             "err"
         );
+
+    } finally {
+
+        boton.disabled = false;
     }
 }
 
@@ -120,31 +123,35 @@ async function registrarJugador() {
 
 export function inicializarJugadores() {
 
-    $("j-guardar")
-        .addEventListener(
-            "click",
-            registrarJugador
-        );
+    $("form-jugador").addEventListener(
+        "submit",
+        registrarJugador
+    );
 
 
     let buscarTimer;
 
+    $("j-buscar").addEventListener(
+        "input",
+        (event) => {
 
-    $("j-buscar")
-        .addEventListener(
-            "input",
-            (event) => {
+            clearTimeout(buscarTimer);
 
-                clearTimeout(buscarTimer);
+            const termino =
+                event.target.value.trim();
 
-                const termino =
-                    event.target.value.trim();
+            buscarTimer = setTimeout(
+                () => cargarJugadores(termino),
+                250
+            );
+        }
+    );
 
 
-                buscarTimer = setTimeout(
-                    () => cargarJugadores(termino),
-                    250
-                );
-            }
-        );
+    $("form-buscar-jugador").addEventListener(
+        "submit",
+        (event) => {
+            event.preventDefault();
+        }
+    );
 }

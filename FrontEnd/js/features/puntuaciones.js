@@ -2,34 +2,62 @@ import { apiGet, apiPost } from "../api/api.js";
 import { $, mensaje, esc } from "../utils/ui.js";
 
 
+// ==========================================
+// CARGAR JUGADORES Y VIDEOJUEGOS
+// ==========================================
+
 export async function cargarSelects() {
+
+    const selectJugador =
+        $("p-jugador");
+
+    const selectVideojuego =
+        $("p-videojuego");
 
     try {
 
-        const [jugadores, videojuegos] = await Promise.all([
-            apiGet("/jugadores"),
-            apiGet("/videojuegos")
-        ]);
+        const [jugadores, videojuegos] =
+            await Promise.all([
+                apiGet("/jugadores"),
+                apiGet("/videojuegos")
+            ]);
 
-        $("p-jugador").innerHTML = jugadores
-            .map((jugador) => `
-                <option value="${jugador.id}">
-                    ${esc(jugador.gamertag)}
-                </option>
-            `)
-            .join("");
 
-        $("p-videojuego").innerHTML = videojuegos
-            .map((videojuego) => `
-                <option value="${videojuego.id}">
-                    ${esc(videojuego.nombre)}
-                </option>
-            `)
-            .join("");
+        selectJugador.innerHTML = `
+            <option value="" selected disabled>
+                Selecciona un jugador
+            </option>
+
+            ${jugadores
+                .map((jugador) => `
+                    <option value="${jugador.id}">
+                        ${esc(jugador.gamertag)}
+                    </option>
+                `)
+                .join("")}
+        `;
+
+
+        selectVideojuego.innerHTML = `
+            <option value="" selected disabled>
+                Selecciona un videojuego
+            </option>
+
+            ${videojuegos
+                .map((videojuego) => `
+                    <option value="${videojuego.id}">
+                        ${esc(videojuego.nombre)}
+                    </option>
+                `)
+                .join("")}
+        `;
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error al cargar selects:",
+            error
+        );
 
         mensaje(
             "No se pudieron cargar jugadores y videojuegos",
@@ -39,21 +67,41 @@ export async function cargarSelects() {
 }
 
 
-async function registrarPuntuacion() {
+// ==========================================
+// REGISTRAR PUNTUACIÓN
+// ==========================================
 
-    const jugadorId = $("p-jugador").value;
-    const videojuegoId = $("p-videojuego").value;
-    const valor = $("p-puntuacion").value;
+async function registrarPuntuacion(event) {
+
+    event.preventDefault();
+
+    const formulario =
+        $("form-puntuacion");
+
+    const jugadorId =
+        $("p-jugador").value;
+
+    const videojuegoId =
+        $("p-videojuego").value;
+
+    const valor =
+        $("p-puntuacion").value;
+
+    const boton = formulario.querySelector(
+        'button[type="submit"]'
+    );
+
 
     if (!jugadorId || !videojuegoId) {
 
         mensaje(
-            "Selecciona jugador y videojuego",
+            "Selecciona un jugador y un videojuego",
             "err"
         );
 
         return;
     }
+
 
     if (valor === "") {
 
@@ -65,7 +113,21 @@ async function registrarPuntuacion() {
         return;
     }
 
-    const puntuacion = Number(valor);
+
+    const puntuacion =
+        Number(valor);
+
+
+    if (!Number.isFinite(puntuacion)) {
+
+        mensaje(
+            "La puntuación debe ser un número válido",
+            "err"
+        );
+
+        return;
+    }
+
 
     if (puntuacion < 0) {
 
@@ -77,7 +139,10 @@ async function registrarPuntuacion() {
         return;
     }
 
+
     try {
+
+        boton.disabled = true;
 
         await apiPost("/puntuaciones", {
             jugador_id: Number(jugadorId),
@@ -85,7 +150,7 @@ async function registrarPuntuacion() {
             puntuacion
         });
 
-        $("p-puntuacion").value = "";
+        formulario.reset();
 
         mensaje(
             "Puntuación registrada correctamente",
@@ -98,14 +163,22 @@ async function registrarPuntuacion() {
             error.message,
             "err"
         );
+
+    } finally {
+
+        boton.disabled = false;
     }
 }
 
 
+// ==========================================
+// INICIALIZAR FEATURE
+// ==========================================
+
 export function inicializarPuntuaciones() {
 
-    $("p-guardar").addEventListener(
-        "click",
+    $("form-puntuacion").addEventListener(
+        "submit",
         registrarPuntuacion
     );
 }

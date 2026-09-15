@@ -2,24 +2,22 @@ import { apiGet, apiPost } from "../api/api.js";
 import { $, mensaje, esc } from "../utils/ui.js";
 
 
+// ==========================================
+// CARGAR VIDEOJUEGOS
+// ==========================================
+
 export async function cargarVideojuegos() {
 
     const tbody = $("v-tabla");
 
     try {
 
-        const videojuegos = await apiGet("/videojuegos");
+        const videojuegos =
+            await apiGet("/videojuegos");
 
-        tbody.innerHTML = videojuegos.length
-            ? videojuegos
-                .map((videojuego) => `
-                    <tr>
-                        <td>${esc(videojuego.nombre)}</td>
-                        <td>${esc(videojuego.genero)}</td>
-                    </tr>
-                `)
-                .join("")
-            : `
+        if (!videojuegos.length) {
+
+            tbody.innerHTML = `
                 <tr>
                     <td colspan="2" class="vacio">
                         Sin videojuegos
@@ -27,9 +25,24 @@ export async function cargarVideojuegos() {
                 </tr>
             `;
 
+            return;
+        }
+
+        tbody.innerHTML = videojuegos
+            .map((videojuego) => `
+                <tr>
+                    <td>${esc(videojuego.nombre)}</td>
+                    <td>${esc(videojuego.genero)}</td>
+                </tr>
+            `)
+            .join("");
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error al cargar videojuegos:",
+            error
+        );
 
         tbody.innerHTML = `
             <tr>
@@ -42,10 +55,26 @@ export async function cargarVideojuegos() {
 }
 
 
-async function registrarVideojuego() {
+// ==========================================
+// REGISTRAR VIDEOJUEGO
+// ==========================================
 
-    const nombre = $("v-nombre").value.trim();
-    const genero = $("v-genero").value.trim();
+async function registrarVideojuego(event) {
+
+    event.preventDefault();
+
+    const formulario =
+        $("form-videojuego");
+
+    const nombre =
+        $("v-nombre").value.trim();
+
+    const genero =
+        $("v-genero").value.trim();
+
+    const boton = formulario.querySelector(
+        'button[type="submit"]'
+    );
 
     if (!nombre || !genero) {
 
@@ -59,13 +88,14 @@ async function registrarVideojuego() {
 
     try {
 
+        boton.disabled = true;
+
         await apiPost("/videojuegos", {
             nombre,
             genero
         });
 
-        $("v-nombre").value = "";
-        $("v-genero").value = "";
+        formulario.reset();
 
         mensaje(
             "Videojuego registrado correctamente",
@@ -80,14 +110,22 @@ async function registrarVideojuego() {
             error.message,
             "err"
         );
+
+    } finally {
+
+        boton.disabled = false;
     }
 }
 
 
+// ==========================================
+// INICIALIZAR FEATURE
+// ==========================================
+
 export function inicializarVideojuegos() {
 
-    $("v-guardar").addEventListener(
-        "click",
+    $("form-videojuego").addEventListener(
+        "submit",
         registrarVideojuego
     );
 }
