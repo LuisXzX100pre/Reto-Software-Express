@@ -2,11 +2,16 @@ const API_URL = "http://localhost:3000/api";
 
 
 export async function apiGet(ruta) {
-    const res = await fetch(API_URL + ruta);
 
-    const data = await res.json().catch(() => ({}));
+    const response = await fetch(API_URL + ruta);
 
-    if (!res.ok) {
+    const data = await response
+        .json()
+        .catch(() => ({}));
+
+
+    if (!response.ok) {
+
         throw new Error(
             data.mensaje ||
             data.error ||
@@ -14,30 +19,41 @@ export async function apiGet(ruta) {
         );
     }
 
+
     return data;
 }
 
 
 export async function apiPost(ruta, cuerpo) {
-    const res = await fetch(API_URL + ruta, {
-        method: "POST",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+    const response = await fetch(
+        API_URL + ruta,
+        {
+            method: "POST",
 
-        body: JSON.stringify(cuerpo)
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    const data = await res.json().catch(() => ({}));
+            body: JSON.stringify(cuerpo)
+        }
+    );
 
-    if (!res.ok) {
+
+    const data = await response
+        .json()
+        .catch(() => ({}));
+
+
+    if (!response.ok) {
+
         throw new Error(
             data.mensaje ||
             data.error ||
             "No se pudo completar la operación"
         );
     }
+
 
     return data;
 }
