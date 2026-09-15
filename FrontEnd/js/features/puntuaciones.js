@@ -18,7 +18,7 @@ export async function cargarSelects() {
 
         const [jugadores, videojuegos] =
             await Promise.all([
-                apiGet("/jugadores"),
+                apiGet("/jugadores/opciones"),
                 apiGet("/videojuegos")
             ]);
 
