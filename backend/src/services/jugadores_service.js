@@ -1,9 +1,12 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 
-const obtenerJugadores = async () => {
+const obtenerJugadores = async (pagina, limite) => {
 
-    const [jugadores] = await pool.query(`
+    const offset = (pagina - 1) * limite;
+
+    const [jugadores] = await pool.query(
+        `
         SELECT
             id,
             nombre,
@@ -12,9 +15,27 @@ const obtenerJugadores = async () => {
             fecha_registro
         FROM jugadores
         ORDER BY fecha_registro DESC
+        LIMIT ? OFFSET ?
+        `,
+        [limite, offset]
+    );
+
+    const [totalResultado] = await pool.query(`
+        SELECT COUNT(*) AS total
+        FROM jugadores
     `);
 
-    return jugadores;
+    const total = totalResultado[0].total;
+
+    return {
+        datos: jugadores,
+        paginacion: {
+            pagina,
+            limite,
+            total,
+            totalPaginas: Math.ceil(total / limite)
+        }
+    };
 };
 
 
@@ -24,30 +45,34 @@ const registrarJugador = async ({
     correo
 }) => {
 
-    const [resultado] = await pool.query(`
+    const [resultado] = await pool.query(
+        `
         INSERT INTO jugadores (
             nombre,
             gamertag,
             correo
         )
         VALUES (?, ?, ?)
-    `, [
-        nombre,
-        gamertag,
-        correo
-    ]);
+        `,
+        [nombre, gamertag, correo]
+    );
 
-    return {
-        id: resultado.insertId
-    };
+    return resultado.insertId;
 };
 
 
-const buscarJugadores = async (termino) => {
+const buscarJugadores = async (
+    termino,
+    pagina,
+    limite
+) => {
+
+    const offset = (pagina - 1) * limite;
 
     const busqueda = `%${termino}%`;
 
-    const [jugadores] = await pool.query(`
+    const [jugadores] = await pool.query(
+        `
         SELECT
             id,
             nombre,
@@ -57,11 +82,52 @@ const buscarJugadores = async (termino) => {
         FROM jugadores
         WHERE nombre LIKE ?
            OR gamertag LIKE ?
-        ORDER BY nombre
-    `, [
-        busqueda,
-        busqueda
-    ]);
+        ORDER BY fecha_registro DESC
+        LIMIT ? OFFSET ?
+        `,
+        [
+            busqueda,
+            busqueda,
+            limite,
+            offset
+        ]
+    );
+
+    const [totalResultado] = await pool.query(
+        `
+        SELECT COUNT(*) AS total
+        FROM jugadores
+        WHERE nombre LIKE ?
+           OR gamertag LIKE ?
+        `,
+        [busqueda, busqueda]
+    );
+
+    const total = totalResultado[0].total;
+
+    return {
+        datos: jugadores,
+        paginacion: {
+            pagina,
+            limite,
+            total,
+            totalPaginas: Math.ceil(total / limite)
+        }
+    };
+};
+
+
+const obtenerOpcionesJugadores = async () => {
+
+    const [jugadores] = await pool.query(
+        `
+        SELECT
+            id,
+            gamertag
+        FROM jugadores
+        ORDER BY gamertag ASC
+        `
+    );
 
     return jugadores;
 };
@@ -70,5 +136,6 @@ const buscarJugadores = async (termino) => {
 module.exports = {
     obtenerJugadores,
     registrarJugador,
-    buscarJugadores
+    buscarJugadores,
+    obtenerOpcionesJugadores
 };

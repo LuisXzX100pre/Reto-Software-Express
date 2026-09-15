@@ -1,19 +1,31 @@
-const express = require('express');
-
-const {
-    obtenerJugadores,
-    registrarJugador,
-    buscarJugadores
-} = require('../controllers/jugadores_controller');
+const express = require("express");
 
 const router = express.Router();
 
+const jugadoresController =
+    require("../controllers/jugadores_controller");
 
-router.get('/', obtenerJugadores);
 
-router.post('/', registrarJugador);
+router.get(
+    "/",
+    jugadoresController.obtenerJugadores
+);
 
-router.get('/buscar', buscarJugadores);
+router.get(
+    "/buscar",
+    jugadoresController.buscarJugadores
+);
+
+router.get(
+    "/opciones",
+    jugadoresController.obtenerOpcionesJugadores
+);
+
+
+router.post(
+    "/",
+    jugadoresController.registrarJugador
+);
 
 
 module.exports = router;

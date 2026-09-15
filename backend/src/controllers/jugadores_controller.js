@@ -1,11 +1,93 @@
 const jugadoresService = require('../services/jugadores_service');
 
-
 const obtenerJugadores = async (req, res) => {
+
+    try {
+
+        const pagina = Math.max(
+            parseInt(req.query.pagina) || 1,
+            1
+        );
+
+        const limite = Math.min(
+            Math.max(
+                parseInt(req.query.limite) || 10,
+                1
+            ),
+            50
+        );
+
+        const resultado =
+            await jugadoresService.obtenerJugadores(
+                pagina,
+                limite
+            );
+
+        res.json(resultado);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje:
+                "Error al obtener los jugadores"
+        });
+    }
+};
+
+
+const buscarJugadores = async (req, res) => {
+
+    try {
+
+        const termino =
+            (req.query.q || "").trim();
+
+        const pagina = Math.max(
+            parseInt(req.query.pagina) || 1,
+            1
+        );
+
+        const limite = Math.min(
+            Math.max(
+                parseInt(req.query.limite) || 10,
+                1
+            ),
+            50
+        );
+
+        const resultado =
+            await jugadoresService.buscarJugadores(
+                termino,
+                pagina,
+                limite
+            );
+
+        res.json(resultado);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje:
+                "Error al buscar jugadores"
+        });
+    }
+};
+
+
+const obtenerOpcionesJugadores = async (
+    req,
+    res
+) => {
+
     try {
 
         const jugadores =
-            await jugadoresService.obtenerJugadores();
+            await jugadoresService
+                .obtenerOpcionesJugadores();
 
         res.json(jugadores);
 
@@ -14,7 +96,8 @@ const obtenerJugadores = async (req, res) => {
         console.error(error);
 
         res.status(500).json({
-            mensaje: 'Error al obtener jugadores'
+            mensaje:
+                "Error al obtener jugadores"
         });
     }
 };
@@ -61,36 +144,9 @@ const registrarJugador = async (req, res) => {
 };
 
 
-const buscarJugadores = async (req, res) => {
-    try {
-
-        const { q } = req.query;
-
-        if (!q) {
-            return res.status(400).json({
-                mensaje:
-                    'Debes proporcionar un término de búsqueda'
-            });
-        }
-
-        const jugadores =
-            await jugadoresService.buscarJugadores(q);
-
-        res.json(jugadores);
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            mensaje: 'Error al buscar jugadores'
-        });
-    }
-};
-
-
 module.exports = {
     obtenerJugadores,
-    registrarJugador,
-    buscarJugadores
+    buscarJugadores,
+    obtenerOpcionesJugadores,
+    registrarJugador
 };
