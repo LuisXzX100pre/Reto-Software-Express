@@ -1,130 +1,366 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Torneo de Videojuegos</title>
+
   <link rel="stylesheet" href="styles.css" />
 </head>
+
+
 <body>
+
+  <!-- ================= HEADER ================= -->
+
   <header class="topbar">
+
     <h1>Torneo de Videojuegos</h1>
+
     <p>Panel de administración</p>
+
   </header>
 
-  <!-- Mensaje global de éxito / error (RF: mensajes claros) -->
+
+  <!-- ================= MENSAJES ================= -->
+
   <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
 
-  <nav class="tabs">
-    <button class="tab activo" data-tab="jugadores">Jugadores</button>
-    <button class="tab" data-tab="videojuegos">Videojuegos</button>
-    <button class="tab" data-tab="puntuaciones">Puntuación</button>
-    <button class="tab" data-tab="ranking">Ranking</button>
-    <button class="tab" data-tab="estadisticas">Estadísticas</button>
+
+  <!-- ================= NAVEGACIÓN ================= -->
+
+  <nav class="tabs" aria-label="Secciones del sistema">
+
+    <button type="button" class="tab activo" data-tab="jugadores">
+      Jugadores
+    </button>
+
+    <button type="button" class="tab" data-tab="videojuegos">
+      Videojuegos
+    </button>
+
+    <button type="button" class="tab" data-tab="puntuaciones">
+      Puntuación
+    </button>
+
+    <button type="button" class="tab" data-tab="ranking">
+      Ranking
+    </button>
+
+    <button type="button" class="tab" data-tab="estadisticas">
+      Estadísticas
+    </button>
+
   </nav>
 
+
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+
   <main>
-    <!-- ================= JUGADORES (RF01, RF04, RF07) ================= -->
-    <section class="panel activo" id="jugadores">
+    <!-- ===================================================== -->
+    <!-- JUGADORES -->
+    <!-- ===================================================== -->
+    <section class="panel activo" id="jugadores" aria-labelledby="titulo-jugadores">
       <div class="grid-2">
-        <div class="card">
-          <h2>Registrar jugador</h2>
-          <label for="j-nombre">Nombre</label>
-          <input id="j-nombre" type="text" placeholder="Juan Pérez" />
-          <label for="j-gamertag">Gamertag</label>
-          <input id="j-gamertag" type="text" placeholder="Shadow" />
-          <label for="j-correo">Correo</label>
-          <input id="j-correo" type="email" placeholder="nombre@correo.com" />
-          <button id="j-guardar" class="btn-primario">Guardar jugador</button>
-        </div>
 
-        <div class="card">
-          <h2>Jugadores registrados</h2>
-          <input id="j-buscar" type="text" class="buscador" placeholder="Buscar por nombre o gamertag" />
+        <!-- REGISTRAR JUGADOR -->
+
+        <article class="card">
+          <h2 id="titulo-jugadores">
+            Registrar jugador
+          </h2>
+          <form id="form-jugador">
+            <label for="j-nombre">
+              Nombre
+            </label>
+            <input id="j-nombre" name="nombre" type="text" maxlength="100" autocomplete="name" placeholder="Juan Pérez"
+              required />
+            <label for="j-gamertag">
+              Gamertag
+            </label>
+            <input id="j-gamertag" name="gamertag" type="text" maxlength="50" autocomplete="off" placeholder="Shadow"
+              required />
+            <label for="j-correo">
+              Correo electrónico
+            </label>
+            <input id="j-correo" name="correo" type="email" maxlength="150" autocomplete="email"
+              placeholder="nombre@correo.com" required />
+            <button type="submit" class="btn-primario">
+              Guardar jugador
+            </button>
+          </form>
+        </article>
+
+        <!-- CONSULTAR / BUSCAR JUGADORES -->
+
+        <article class="card">
+          <h2>
+            Jugadores registrados
+          </h2>
+          <form id="form-buscar-jugador" role="search">
+            <label for="j-buscar">
+              Buscar jugador
+            </label>
+            <input id="j-buscar" name="busqueda" type="search" maxlength="100" class="buscador" autocomplete="off"
+              placeholder="Buscar por nombre o gamertag" />
+          </form>
           <div class="tabla-scroll">
-            <table>
+            <table aria-label="Jugadores registrados">
               <thead>
-                <tr><th>Gamertag</th><th>Correo</th><th>Fecha de registro</th></tr>
+                <tr>
+                  <th scope="col">
+                    Gamertag
+                  </th>
+                  <th scope="col">
+                    Correo
+                  </th>
+                  <th scope="col">
+                    Fecha de registro
+                  </th>
+                </tr>
               </thead>
+
               <tbody id="j-tabla">
-                <tr><td colspan="3" class="vacio">Cargando…</td></tr>
+                <tr>
+                  <td colspan="3" class="vacio">
+                    Cargando…
+                  </td>
+                </tr>
               </tbody>
+
             </table>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
-    <!-- ================= VIDEOJUEGOS (RF02) ================= -->
-    <section class="panel" id="videojuegos">
+    <!-- ===================================================== -->
+    <!-- VIDEOJUEGOS -->
+    <!-- ===================================================== -->
+
+    <section class="panel" id="videojuegos" aria-labelledby="titulo-videojuegos">
       <div class="grid-2">
-        <div class="card">
-          <h2>Registrar videojuego</h2>
-          <label for="v-nombre">Nombre</label>
-          <input id="v-nombre" type="text" placeholder="Tekken" />
-          <label for="v-genero">Género</label>
-          <input id="v-genero" type="text" placeholder="Peleas" />
-          <button id="v-guardar" class="btn-primario">Guardar videojuego</button>
-        </div>
 
-        <div class="card">
-          <h2>Videojuegos registrados</h2>
+        <!-- REGISTRAR VIDEOJUEGO -->
+
+        <article class="card">
+          <h2 id="titulo-videojuegos">
+            Registrar videojuego
+          </h2>
+
+          <form id="form-videojuego">
+            <label for="v-nombre">
+              Nombre
+            </label>
+
+            <input id="v-nombre" name="nombre" type="text" maxlength="100" autocomplete="off" placeholder="Tekken"
+              required />
+
+            <label for="v-genero">
+              Género
+            </label>
+
+            <input id="v-genero" name="genero" type="text" maxlength="50" autocomplete="off" placeholder="Peleas"
+              required />
+
+            <button type="submit" class="btn-primario">
+              Guardar videojuego
+            </button>
+
+          </form>
+
+        </article>
+
+        <!-- CONSULTAR VIDEOJUEGOS -->
+
+        <article class="card">
+          <h2>
+            Videojuegos registrados
+          </h2>
+
           <div class="tabla-scroll">
-            <table>
+
+            <table aria-label="Videojuegos registrados">
               <thead>
-                <tr><th>Nombre</th><th>Género</th></tr>
+                <tr>
+                  <th scope="col">
+                    Nombre
+                  </th>
+
+                  <th scope="col">
+                    Género
+                  </th>
+                </tr>
               </thead>
+
               <tbody id="v-tabla">
-                <tr><td colspan="2" class="vacio">Cargando…</td></tr>
+
+                <tr>
+                  <td colspan="2" class="vacio">
+                    Cargando…
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
-        </div>
+        </article>
       </div>
+
     </section>
 
-    <!-- ================= PUNTUACIONES (RF05) ================= -->
-    <section class="panel" id="puntuaciones">
-      <div class="card estrecha">
-        <h2>Registrar puntuación</h2>
-        <label for="p-jugador">Jugador</label>
-        <select id="p-jugador"></select>
-        <label for="p-videojuego">Videojuego</label>
-        <select id="p-videojuego"></select>
-        <label for="p-puntuacion">Puntuación</label>
-        <input id="p-puntuacion" type="number" min="0" step="1" placeholder="0" />
-        <button id="p-guardar" class="btn-primario">Guardar puntuación</button>
-      </div>
+    <!-- ===================================================== -->
+    <!-- PUNTUACIONES -->
+    <!-- ===================================================== -->
+
+    <section class="panel" id="puntuaciones" aria-labelledby="titulo-puntuaciones">
+
+      <article class="card estrecha">
+
+        <h2 id="titulo-puntuaciones">
+          Registrar puntuación
+        </h2>
+
+        <form id="form-puntuacion">
+          <label for="p-jugador">
+            Jugador
+          </label>
+
+          <select id="p-jugador" name="jugador_id" required>
+            <option value="" selected disabled>
+              Selecciona un jugador
+            </option>
+          </select>
+
+          <label for="p-videojuego">
+            Videojuego
+          </label>
+
+          <select id="p-videojuego" name="videojuego_id" required>
+            <option value="" selected disabled>
+              Selecciona un videojuego
+            </option>
+          </select>
+
+          <label for="p-puntuacion">
+            Puntuación
+          </label>
+          <input id="p-puntuacion" name="puntuacion" type="number" min="0" step="1" placeholder="0" required />
+          <button type="submit" class="btn-primario">
+            Guardar puntuación
+          </button>
+        </form>
+      </article>
     </section>
 
-    <!-- ================= RANKING (RF06) ================= -->
-    <section class="panel" id="ranking">
-      <div class="card">
-        <h2>Clasificación</h2>
+    <!-- ===================================================== -->
+    <!-- RANKING -->
+    <!-- ===================================================== -->
+
+    <section class="panel" id="ranking" aria-labelledby="titulo-ranking">
+
+      <article class="card">
+        <h2 id="titulo-ranking">
+          Clasificación
+        </h2>
+
         <div class="tabla-scroll">
-          <table>
+          <table aria-label="Clasificación de jugadores">
             <thead>
-              <tr><th>Posición</th><th>Jugador</th><th>Videojuego</th><th class="der">Puntuación</th></tr>
+              <tr>
+                <th scope="col">
+                  Posición
+                </th>
+
+                <th scope="col">
+                  Jugador
+                </th>
+
+                <th scope="col">
+                  Videojuego
+                </th>
+
+                <th scope="col" class="der">
+                  Puntuación
+                </th>
+              </tr>
             </thead>
+
             <tbody id="r-tabla">
-              <tr><td colspan="4" class="vacio">Cargando…</td></tr>
+
+              <tr>
+                <td colspan="4" class="vacio">
+                  Cargando…
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </article>
     </section>
 
-    <!-- ================= ESTADÍSTICAS (RF08) ================= -->
-    <section class="panel" id="estadisticas">
-      <div class="grid-4">
-        <div class="metrica"><span>Jugadores</span><strong id="e-jugadores">—</strong></div>
-        <div class="metrica"><span>Videojuegos</span><strong id="e-videojuegos">—</strong></div>
-        <div class="metrica"><span>Puntuaciones</span><strong id="e-puntuaciones">—</strong></div>
-        <div class="metrica"><span>Promedio</span><strong id="e-promedio">—</strong></div>
-      </div>
+    <!-- ===================================================== -->
+    <!-- ESTADÍSTICAS -->
+    <!-- ===================================================== -->
+
+    <section class="panel" id="estadisticas" aria-labelledby="titulo-estadisticas">
+
+      <h2 id="titulo-estadisticas">
+        Estadísticas
+      </h2>
+
+      <dl class="grid-4">
+        <div class="metrica">
+          <dt>
+            Jugadores
+          </dt>
+          <dd>
+            <strong id="e-jugadores">
+              —
+            </strong>
+          </dd>
+        </div>
+
+        <div class="metrica">
+          <dt>
+            Videojuegos
+          </dt>
+          <dd>
+            <strong id="e-videojuegos">
+              —
+            </strong>
+          </dd>
+        </div>
+
+
+        <div class="metrica">
+          <dt>
+            Puntuaciones
+          </dt>
+          <dd>
+            <strong id="e-puntuaciones">
+              —
+            </strong>
+          </dd>
+        </div>
+
+        <div class="metrica">
+          <dt>
+            Promedio
+          </dt>
+          <dd>
+            <strong id="e-promedio">
+              —
+            </strong>
+          </dd>
+        </div>
+      </dl>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
+
 </html>
