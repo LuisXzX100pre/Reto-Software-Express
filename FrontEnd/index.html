@@ -1,269 +1,256 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Torneo de Videojuegos</title>
-
+  <title>MagusTourn | Torneo de Videojuegos</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-
 <body>
-
-  <!-- ================= HEADER ================= -->
-
   <header class="topbar">
+    <div class="topbar__brand">
+      <img
+        class="topbar__logo"
+        src="./public/images/logo_del_torneo.png"
+        alt="MagusTourn"
+      />
+    </div>
 
     <h1>Torneo de Videojuegos</h1>
-
     <p>Panel de administración</p>
-
   </header>
 
-
-  <!-- ================= MENSAJES ================= -->
-
-  <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
-
-
-  <!-- ================= NAVEGACIÓN ================= -->
+  <div
+    id="mensaje"
+    class="mensaje"
+    role="status"
+    aria-live="polite"
+  ></div>
 
   <nav class="tabs" aria-label="Secciones del sistema">
-
     <button type="button" class="tab activo" data-tab="jugadores">
       Jugadores
     </button>
-
     <button type="button" class="tab" data-tab="videojuegos">
       Videojuegos
     </button>
-
     <button type="button" class="tab" data-tab="puntuaciones">
       Puntuación
     </button>
-
     <button type="button" class="tab" data-tab="ranking">
       Ranking
     </button>
-
     <button type="button" class="tab" data-tab="estadisticas">
       Estadísticas
     </button>
-
   </nav>
 
-
-  <!-- ================= CONTENIDO PRINCIPAL ================= -->
-
   <main>
-    <!-- ===================================================== -->
     <!-- JUGADORES -->
-    <!-- ===================================================== -->
-    <section class="panel activo" id="jugadores" aria-labelledby="titulo-jugadores">
+    <section
+      class="panel activo"
+      id="jugadores"
+      aria-labelledby="titulo-jugadores"
+    >
       <div class="grid-2">
-
-        <!-- REGISTRAR JUGADOR -->
-
         <article class="card">
-          <h2 id="titulo-jugadores">
-            Registrar jugador
-          </h2>
+          <h2 id="titulo-jugadores">Registrar jugador</h2>
+
           <form id="form-jugador">
-            <label for="j-nombre">
-              Nombre
-            </label>
-            <input id="j-nombre" name="nombre" type="text" maxlength="100" autocomplete="name" placeholder="Juan Pérez"
-              required />
-            <label for="j-gamertag">
-              Gamertag
-            </label>
-            <input id="j-gamertag" name="gamertag" type="text" maxlength="50" autocomplete="off" placeholder="Shadow"
-              required />
-            <label for="j-correo">
-              Correo electrónico
-            </label>
-            <input id="j-correo" name="correo" type="email" maxlength="150" autocomplete="email"
-              placeholder="nombre@correo.com" required />
+            <label for="j-nombre">Nombre</label>
+            <input
+              id="j-nombre"
+              name="nombre"
+              type="text"
+              maxlength="100"
+              autocomplete="name"
+              placeholder="Juan Pérez"
+              required
+            />
+
+            <label for="j-gamertag">Gamertag</label>
+            <input
+              id="j-gamertag"
+              name="gamertag"
+              type="text"
+              maxlength="50"
+              autocomplete="off"
+              placeholder="Shadow"
+              required
+            />
+
+            <label for="j-correo">Correo electrónico</label>
+            <input
+              id="j-correo"
+              name="correo"
+              type="email"
+              maxlength="150"
+              autocomplete="email"
+              placeholder="nombre@correo.com"
+              required
+            />
+
             <button type="submit" class="btn-primario">
               Guardar jugador
             </button>
           </form>
         </article>
 
-        <!-- CONSULTAR / BUSCAR JUGADORES -->
-
         <article class="card">
-          <h2>
-            Jugadores registrados
-          </h2>
+          <h2>Jugadores registrados</h2>
+
           <form id="form-buscar-jugador" role="search">
-            <label for="j-buscar">
-              Buscar jugador
-            </label>
-            <input id="j-buscar" name="busqueda" type="search" maxlength="100" class="buscador" autocomplete="off"
-              placeholder="Buscar por nombre o gamertag" />
+            <label for="j-buscar">Buscar jugador</label>
+            <input
+              id="j-buscar"
+              name="busqueda"
+              type="search"
+              maxlength="100"
+              class="buscador"
+              autocomplete="off"
+              placeholder="Buscar por nombre o gamertag"
+            />
           </form>
+
           <div class="tabla-scroll">
             <table aria-label="Jugadores registrados">
               <thead>
                 <tr>
-                  <th scope="col">
-                    Gamertag
-                  </th>
-                  <th scope="col">
-                    Correo
-                  </th>
-                  <th scope="col">
-                    Fecha de registro
-                  </th>
+                  <th scope="col">Gamertag</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Fecha de registro</th>
                 </tr>
               </thead>
-
               <tbody id="j-tabla">
                 <tr>
-                  <td colspan="3" class="vacio">
-                    Cargando…
-                  </td>
+                  <td colspan="3" class="vacio">Cargando…</td>
                 </tr>
               </tbody>
-
-              <div class="paginacion" id="j-paginacion">
-
-                <button type="button" id="j-anterior" class="btn-pagina">
-                  Anterior
-                </button>
-
-                <span id="j-pagina-info">
-                  Página 1
-                </span>
-
-                <button type="button" id="j-siguiente" class="btn-pagina">
-                  Siguiente
-                </button>
-
-              </div>
-
             </table>
+          </div>
+
+          <div class="paginacion" id="j-paginacion">
+            <button
+              type="button"
+              id="j-anterior"
+              class="btn-pagina"
+            >
+              Anterior
+            </button>
+
+            <span id="j-pagina-info" aria-live="polite">
+              Página 1
+            </span>
+
+            <button
+              type="button"
+              id="j-siguiente"
+              class="btn-pagina"
+            >
+              Siguiente
+            </button>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- ===================================================== -->
     <!-- VIDEOJUEGOS -->
-    <!-- ===================================================== -->
-
-    <section class="panel" id="videojuegos" aria-labelledby="titulo-videojuegos">
+    <section
+      class="panel"
+      id="videojuegos"
+      aria-labelledby="titulo-videojuegos"
+    >
       <div class="grid-2">
-
-        <!-- REGISTRAR VIDEOJUEGO -->
-
         <article class="card">
-          <h2 id="titulo-videojuegos">
-            Registrar videojuego
-          </h2>
+          <h2 id="titulo-videojuegos">Registrar videojuego</h2>
 
           <form id="form-videojuego">
-            <label for="v-nombre">
-              Nombre
-            </label>
+            <label for="v-nombre">Nombre</label>
+            <input
+              id="v-nombre"
+              name="nombre"
+              type="text"
+              maxlength="100"
+              autocomplete="off"
+              placeholder="Tekken"
+              required
+            />
 
-            <input id="v-nombre" name="nombre" type="text" maxlength="100" autocomplete="off" placeholder="Tekken"
-              required />
-
-            <label for="v-genero">
-              Género
-            </label>
-
-            <input id="v-genero" name="genero" type="text" maxlength="50" autocomplete="off" placeholder="Peleas"
-              required />
+            <label for="v-genero">Género</label>
+            <input
+              id="v-genero"
+              name="genero"
+              type="text"
+              maxlength="50"
+              autocomplete="off"
+              placeholder="Peleas"
+              required
+            />
 
             <button type="submit" class="btn-primario">
               Guardar videojuego
             </button>
-
           </form>
-
         </article>
 
-        <!-- CONSULTAR VIDEOJUEGOS -->
-
         <article class="card">
-          <h2>
-            Videojuegos registrados
-          </h2>
+          <h2>Videojuegos registrados</h2>
 
           <div class="tabla-scroll">
-
             <table aria-label="Videojuegos registrados">
               <thead>
                 <tr>
-                  <th scope="col">
-                    Nombre
-                  </th>
-
-                  <th scope="col">
-                    Género
-                  </th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Género</th>
                 </tr>
               </thead>
-
               <tbody id="v-tabla">
-
                 <tr>
-                  <td colspan="2" class="vacio">
-                    Cargando…
-                  </td>
+                  <td colspan="2" class="vacio">Cargando…</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </article>
       </div>
-
     </section>
 
-    <!-- ===================================================== -->
     <!-- PUNTUACIONES -->
-    <!-- ===================================================== -->
-
-    <section class="panel" id="puntuaciones" aria-labelledby="titulo-puntuaciones">
-
+    <section
+      class="panel"
+      id="puntuaciones"
+      aria-labelledby="titulo-puntuaciones"
+    >
       <article class="card estrecha">
-
-        <h2 id="titulo-puntuaciones">
-          Registrar puntuación
-        </h2>
+        <h2 id="titulo-puntuaciones">Registrar puntuación</h2>
 
         <form id="form-puntuacion">
-          <label for="p-jugador">
-            Jugador
-          </label>
-
+          <label for="p-jugador">Jugador</label>
           <select id="p-jugador" name="jugador_id" required>
             <option value="" selected disabled>
               Selecciona un jugador
             </option>
           </select>
 
-          <label for="p-videojuego">
-            Videojuego
-          </label>
-
+          <label for="p-videojuego">Videojuego</label>
           <select id="p-videojuego" name="videojuego_id" required>
             <option value="" selected disabled>
               Selecciona un videojuego
             </option>
           </select>
 
-          <label for="p-puntuacion">
-            Puntuación
-          </label>
-          <input id="p-puntuacion" name="puntuacion" type="number" min="0" step="1" placeholder="0" required />
+          <label for="p-puntuacion">Puntuación</label>
+          <input
+            id="p-puntuacion"
+            name="puntuacion"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="0"
+            required
+          />
+
           <button type="submit" class="btn-primario">
             Guardar puntuación
           </button>
@@ -271,45 +258,28 @@
       </article>
     </section>
 
-    <!-- ===================================================== -->
     <!-- RANKING -->
-    <!-- ===================================================== -->
-
-    <section class="panel" id="ranking" aria-labelledby="titulo-ranking">
-
+    <section
+      class="panel"
+      id="ranking"
+      aria-labelledby="titulo-ranking"
+    >
       <article class="card">
-        <h2 id="titulo-ranking">
-          Clasificación
-        </h2>
+        <h2 id="titulo-ranking">Clasificación</h2>
 
         <div class="tabla-scroll">
           <table aria-label="Clasificación de jugadores">
             <thead>
               <tr>
-                <th scope="col">
-                  Posición
-                </th>
-
-                <th scope="col">
-                  Jugador
-                </th>
-
-                <th scope="col">
-                  Videojuego
-                </th>
-
-                <th scope="col" class="der">
-                  Puntuación
-                </th>
+                <th scope="col">Posición</th>
+                <th scope="col">Jugador</th>
+                <th scope="col">Videojuego</th>
+                <th scope="col" class="der">Puntuación</th>
               </tr>
             </thead>
-
             <tbody id="r-tabla">
-
               <tr>
-                <td colspan="4" class="vacio">
-                  Cargando…
-                </td>
+                <td colspan="4" class="vacio">Cargando…</td>
               </tr>
             </tbody>
           </table>
@@ -317,60 +287,33 @@
       </article>
     </section>
 
-    <!-- ===================================================== -->
     <!-- ESTADÍSTICAS -->
-    <!-- ===================================================== -->
-
-    <section class="panel" id="estadisticas" aria-labelledby="titulo-estadisticas">
-
-      <h2 id="titulo-estadisticas">
-        Estadísticas
-      </h2>
+    <section
+      class="panel"
+      id="estadisticas"
+      aria-labelledby="titulo-estadisticas"
+    >
+      <h2 id="titulo-estadisticas">Estadísticas</h2>
 
       <dl class="grid-4">
         <div class="metrica">
-          <dt>
-            Jugadores
-          </dt>
-          <dd>
-            <strong id="e-jugadores">
-              —
-            </strong>
-          </dd>
+          <dt>Jugadores</dt>
+          <dd><strong id="e-jugadores">—</strong></dd>
         </div>
 
         <div class="metrica">
-          <dt>
-            Videojuegos
-          </dt>
-          <dd>
-            <strong id="e-videojuegos">
-              —
-            </strong>
-          </dd>
-        </div>
-
-
-        <div class="metrica">
-          <dt>
-            Puntuaciones
-          </dt>
-          <dd>
-            <strong id="e-puntuaciones">
-              —
-            </strong>
-          </dd>
+          <dt>Videojuegos</dt>
+          <dd><strong id="e-videojuegos">—</strong></dd>
         </div>
 
         <div class="metrica">
-          <dt>
-            Promedio
-          </dt>
-          <dd>
-            <strong id="e-promedio">
-              —
-            </strong>
-          </dd>
+          <dt>Puntuaciones</dt>
+          <dd><strong id="e-puntuaciones">—</strong></dd>
+        </div>
+
+        <div class="metrica">
+          <dt>Promedio</dt>
+          <dd><strong id="e-promedio">—</strong></dd>
         </div>
       </dl>
     </section>
@@ -378,5 +321,4 @@
 
   <script type="module" src="./js/main.js"></script>
 </body>
-
 </html>
