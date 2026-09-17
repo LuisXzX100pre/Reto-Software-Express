@@ -32,3 +32,9 @@ export function esc(valor) {
 
     return div.innerHTML;
 }
+
+export function escAttr(valor) {
+    return esc(valor)
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}

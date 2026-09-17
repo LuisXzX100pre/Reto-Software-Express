@@ -631,3 +631,396 @@ dl.grid-4 {
     transition: none !important;
   }
 }
+/* EDICIÓN Y ACCIONES CRUD */
+.form-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.btn-secundario {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  border-color: #65708a;
+  background: #252b39;
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+.btn-accion {
+  min-height: 34px;
+  margin: 2px 4px 2px 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: filter 180ms, transform 180ms;
+}
+
+.btn-accion:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.btn-editar {
+  border: 1px solid #53627e;
+  background: #273149;
+  color: #dce7ff;
+}
+
+.btn-eliminar {
+  border: 1px solid #793449;
+  background: #3a1923;
+  color: #ffb4c1;
+}
+
+/* MODALES CRUD */
+body.modal-abierto {
+  overflow: hidden;
+}
+
+.modal-root {
+  position: relative;
+  z-index: 1000;
+}
+
+.modal-root:not(.activo) {
+  display: none;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.76);
+  backdrop-filter: blur(7px);
+  animation: modal-fondo 180ms ease-out both;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(92vw, 520px);
+  max-height: min(88vh, 760px);
+  overflow-y: auto;
+  transform: translate(-50%, -50%);
+  border: 1px solid #343c4e;
+  border-radius: 18px;
+  background: #151923;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+  animation: modal-entrada 220ms var(--ease) both;
+}
+
+.modal-cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid #292f3d;
+}
+
+.modal-cabecera h2,
+.estado-exito h2 {
+  margin: 0;
+  color: #f5f6fa;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.modal-cabecera p {
+  margin: 6px 0 0;
+  color: var(--text-mut);
+  font-size: 13px;
+}
+
+.modal-cerrar {
+  display: grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #929caf;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-cerrar:hover {
+  border-color: #394154;
+  background: #202532;
+  color: #fff;
+}
+
+.modal-cuerpo {
+  padding: 24px;
+}
+
+.modal-campos input,
+.modal-campos select {
+  margin-bottom: 18px;
+}
+
+.modal-error {
+  display: none;
+  margin: 2px 0 16px;
+  padding: 11px 13px;
+  border: 1px solid #6a2a39;
+  border-radius: 9px;
+  background: #30151d;
+  color: #ffb5c1;
+  font-size: 13px;
+}
+
+.modal-error.visible {
+  display: block;
+}
+
+.modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-modal {
+  min-height: 44px;
+  padding: 10px 17px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 160ms, filter 160ms, border-color 160ms, background-color 160ms;
+}
+
+.btn-modal:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-modal:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.btn-modal-primario {
+  border: 1px solid #f14a65;
+  background: #d8183c;
+  color: #fff;
+}
+
+.btn-modal-primario:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-modal-secundario {
+  border: 1px solid #3a4254;
+  background: #1c212c;
+  color: #dce1ea;
+}
+
+.btn-modal-secundario:hover:not(:disabled) {
+  border-color: #525d73;
+  background: #242a37;
+}
+
+.btn-modal-peligro {
+  border: 1px solid #9c3043;
+  background: #a91932;
+  color: #fff;
+}
+
+.btn-modal-peligro:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+
+.modal-aviso {
+  margin-bottom: 22px;
+  padding: 13px 14px;
+  border: 1px solid #51303a;
+  border-radius: 10px;
+  background: #22151a;
+  color: #d9aab3;
+  font-size: 13px;
+}
+
+.modal-exito {
+  width: min(90vw, 420px);
+  overflow: hidden;
+}
+
+.modal-exito .modal-cuerpo {
+  padding: 38px 30px 30px;
+}
+
+.estado-exito {
+  text-align: center;
+}
+
+.estado-exito p {
+  margin: 8px 0 24px;
+  color: var(--text-mut);
+  font-size: 14px;
+}
+
+.estado-exito .btn-modal {
+  min-width: 120px;
+}
+
+.check-exito {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border: 1px solid #2f7959;
+  border-radius: 50%;
+  background: #153426;
+  box-shadow: 0 0 0 8px rgba(48, 156, 108, 0.08);
+  animation: check-pop 320ms var(--ease) both;
+}
+
+.check-exito svg {
+  width: 38px;
+  height: 38px;
+  overflow: visible;
+}
+
+.check-exito path {
+  fill: none;
+  stroke: #72e2aa;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: check-trazo 420ms 120ms ease-out forwards;
+}
+
+@keyframes modal-fondo {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-entrada {
+  from { opacity: 0; transform: translate(-50%, -47%) scale(.97); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes check-pop {
+  from { opacity: 0; transform: scale(.72); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes check-trazo {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: calc(100vw - 28px);
+    max-height: calc(100vh - 32px);
+    border-radius: 15px;
+  }
+
+  .modal-cabecera,
+  .modal-cuerpo {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .modal-acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .btn-modal {
+    width: 100%;
+  }
+}
+
+/* FILTROS DE RANKING Y ESTADÍSTICAS POR VIDEOJUEGO */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.seccion-cabecera {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.seccion-cabecera h2 {
+  margin-bottom: 6px;
+}
+
+.seccion-cabecera p {
+  margin: 0;
+  color: var(--text-mut);
+  font-size: 13px;
+}
+
+.filtro-compacto {
+  width: min(100%, 300px);
+  flex: 0 0 300px;
+}
+
+.filtro-compacto label {
+  margin-bottom: 6px;
+}
+
+.filtro-compacto select {
+  min-height: 42px;
+  margin-bottom: 0;
+}
+
+.resumen-global {
+  margin: 0 0 24px;
+}
+
+.estadisticas-juego,
+.promedios-listado {
+  margin-top: 24px;
+}
+
+.metricas-juego {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .seccion-cabecera {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filtro-compacto {
+    width: 100%;
+    flex-basis: auto;
+  }
+}

@@ -91,9 +91,11 @@
               required
             />
 
-            <button type="submit" class="btn-primario">
-              Guardar jugador
-            </button>
+            <div class="form-actions">
+              <button type="submit" class="btn-primario" id="j-guardar">
+                Guardar jugador
+              </button>
+            </div>
           </form>
         </article>
 
@@ -117,14 +119,16 @@
             <table aria-label="Jugadores registrados">
               <thead>
                 <tr>
+                  <th scope="col">Nombre</th>
                   <th scope="col">Gamertag</th>
                   <th scope="col">Correo</th>
                   <th scope="col">Fecha de registro</th>
+                  <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody id="j-tabla">
                 <tr>
-                  <td colspan="3" class="vacio">Cargando…</td>
+                  <td colspan="5" class="vacio">Cargando…</td>
                 </tr>
               </tbody>
             </table>
@@ -188,9 +192,11 @@
               required
             />
 
-            <button type="submit" class="btn-primario">
-              Guardar videojuego
-            </button>
+            <div class="form-actions">
+              <button type="submit" class="btn-primario" id="v-guardar">
+                Guardar videojuego
+              </button>
+            </div>
           </form>
         </article>
 
@@ -203,11 +209,12 @@
                 <tr>
                   <th scope="col">Nombre</th>
                   <th scope="col">Género</th>
+                  <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody id="v-tabla">
                 <tr>
-                  <td colspan="2" class="vacio">Cargando…</td>
+                  <td colspan="3" class="vacio">Cargando…</td>
                 </tr>
               </tbody>
             </table>
@@ -222,40 +229,58 @@
       id="puntuaciones"
       aria-labelledby="titulo-puntuaciones"
     >
-      <article class="card estrecha">
-        <h2 id="titulo-puntuaciones">Registrar puntuación</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h2 id="titulo-puntuaciones">Registrar puntuación</h2>
 
-        <form id="form-puntuacion">
-          <label for="p-jugador">Jugador</label>
-          <select id="p-jugador" name="jugador_id" required>
-            <option value="" selected disabled>
-              Selecciona un jugador
-            </option>
-          </select>
+          <form id="form-puntuacion">
+            <label for="p-jugador">Jugador</label>
+            <select id="p-jugador" name="jugador_id" required>
+              <option value="" selected disabled>Selecciona un jugador</option>
+            </select>
 
-          <label for="p-videojuego">Videojuego</label>
-          <select id="p-videojuego" name="videojuego_id" required>
-            <option value="" selected disabled>
-              Selecciona un videojuego
-            </option>
-          </select>
+            <label for="p-videojuego">Videojuego</label>
+            <select id="p-videojuego" name="videojuego_id" required>
+              <option value="" selected disabled>Selecciona un videojuego</option>
+            </select>
 
-          <label for="p-puntuacion">Puntuación</label>
-          <input
-            id="p-puntuacion"
-            name="puntuacion"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="0"
-            required
-          />
+            <label for="p-puntuacion">Puntuación</label>
+            <input
+              id="p-puntuacion"
+              name="puntuacion"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0"
+              required
+            />
 
-          <button type="submit" class="btn-primario">
-            Guardar puntuación
-          </button>
-        </form>
-      </article>
+            <div class="form-actions">
+              <button type="submit" class="btn-primario" id="p-guardar">Guardar puntuación</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>Puntuaciones registradas</h2>
+          <div class="tabla-scroll">
+            <table aria-label="Puntuaciones registradas">
+              <thead>
+                <tr>
+                  <th scope="col">Jugador</th>
+                  <th scope="col">Videojuego</th>
+                  <th scope="col" class="der">Puntuación</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="p-tabla">
+                <tr><td colspan="5" class="vacio">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
     </section>
 
     <!-- RANKING -->
@@ -265,7 +290,19 @@
       aria-labelledby="titulo-ranking"
     >
       <article class="card">
-        <h2 id="titulo-ranking">Clasificación</h2>
+        <div class="seccion-cabecera">
+          <div>
+            <h2 id="titulo-ranking">Clasificación</h2>
+            <p>Compara las puntuaciones generales o filtra el ranking por videojuego.</p>
+          </div>
+
+          <div class="filtro-compacto">
+            <label for="r-videojuego">Videojuego</label>
+            <select id="r-videojuego">
+              <option value="">Todos los videojuegos</option>
+            </select>
+          </div>
+        </div>
 
         <div class="tabla-scroll">
           <table aria-label="Clasificación de jugadores">
@@ -295,9 +332,9 @@
     >
       <h2 id="titulo-estadisticas">Estadísticas</h2>
 
-      <dl class="grid-4">
+      <dl class="grid-3 resumen-global">
         <div class="metrica">
-          <dt>Jugadores</dt>
+          <dt>Jugadores registrados</dt>
           <dd><strong id="e-jugadores">—</strong></dd>
         </div>
 
@@ -307,15 +344,63 @@
         </div>
 
         <div class="metrica">
-          <dt>Puntuaciones</dt>
+          <dt>Puntuaciones registradas</dt>
           <dd><strong id="e-puntuaciones">—</strong></dd>
         </div>
-
-        <div class="metrica">
-          <dt>Promedio</dt>
-          <dd><strong id="e-promedio">—</strong></dd>
-        </div>
       </dl>
+
+      <article class="card estadisticas-juego">
+        <div class="seccion-cabecera">
+          <div>
+            <h2>Promedio por videojuego</h2>
+            <p id="e-seleccion-nombre">Selecciona un videojuego para ver sus datos</p>
+          </div>
+
+          <div class="filtro-compacto">
+            <label for="e-videojuego">Videojuego</label>
+            <select id="e-videojuego">
+              <option value="">Selecciona un videojuego</option>
+            </select>
+          </div>
+        </div>
+
+        <dl class="grid-3 metricas-juego">
+          <div class="metrica">
+            <dt>Promedio del videojuego</dt>
+            <dd><strong id="e-promedio">—</strong></dd>
+          </div>
+
+          <div class="metrica">
+            <dt>Puntuaciones en este juego</dt>
+            <dd><strong id="e-puntuaciones-juego">—</strong></dd>
+          </div>
+
+          <div class="metrica">
+            <dt>Mejor puntuación</dt>
+            <dd><strong id="e-mejor">—</strong></dd>
+          </div>
+        </dl>
+      </article>
+
+      <article class="card promedios-listado">
+        <h2>Resumen por videojuego</h2>
+        <div class="tabla-scroll">
+          <table aria-label="Promedios por videojuego">
+            <thead>
+              <tr>
+                <th scope="col">Videojuego</th>
+                <th scope="col">Género</th>
+                <th scope="col" class="der">Registros</th>
+                <th scope="col" class="der">Promedio</th>
+                <th scope="col" class="der">Mejor puntuación</th>
+              </tr>
+            </thead>
+            <tbody id="e-tabla-juegos">
+              <tr><td colspan="5" class="vacio">Cargando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
     </section>
   </main>
 
