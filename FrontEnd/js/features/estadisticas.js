@@ -80,10 +80,6 @@ export async function cargarEstadisticas() {
     try {
         estadisticasActuales = await apiGet("/estadisticas");
 
-        $("e-jugadores").textContent = estadisticasActuales.total_jugadores;
-        $("e-videojuegos").textContent = estadisticasActuales.total_videojuegos;
-        $("e-puntuaciones").textContent = estadisticasActuales.total_puntuaciones;
-
         prepararSelector();
         pintarDetalleVideojuego();
         pintarTablaPromedios();
